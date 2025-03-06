@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="language-buttons">
+        <button class="btn" onclick="window.location.href='help_ru.html'">RU</button>
+        <button class="btn" onclick="window.location.href='help_kz.html'">KZ</button>
+    </div>
+    <div class="card">
+        <h1 class="title">Help</h1>
+        <p class="subtitle">Information about LOP MODs program</p>
+        
+        <h2>LOP MODs program</h2>
+        <p>The LOP MODs program (Lethal Outcome Prediction of MODS) is an advanced model for predicting the risk of lethal outcomes in patients with multiple organ dysfunction syndrome (MODS).</p>
+        <p>Currently, the standard version of the APACHE II scale does not take into account the condition of the gastrointestinal tract as an important indicator for assessing the severity of the patient's condition. This limits the accuracy of prognosis and diagnosis. A distinctive feature of this program is the introduction of the intestinal barrier dysfunction marker - I-FABP and its calculation together with the APACHE II scale, which improves the accuracy of predicting the risk of mortality.</p>
+        
+        <h3>Principles of the LOP MODs Program:</h3>
+        <p>The LOP MODs program uses data obtained from the calculation of the APACHE II scale and an additional biomarker — I-FABP. This marker is an indicator of intestinal wall damage and is used to assess the condition of the GIT.</p>
+        <p><strong>Interpretation of results:</strong> the higher the percentage obtained, the higher the likelihood of a lethal outcome.</p>
+        
+        <h3>Example:</h3>
+        <ul>
+
+                <img src="/eng_media/1_eng.png" alt="Calculation of mortality probability given a known APACHE II score">
+                <strong>Picture 1</strong> - Calculation of mortality probability given a known APACHE II score.
+            
+                <img src="eng_media/2_eng.png" alt="If APACHE II score is unknown, select the 'Yes' option">
+                <strong>Picture 2</strong> - If APACHE II score is unknown, select the "Yes" option.
+            
+            
+                <img src="/eng_media/3_eng.png" alt="Enter data according to the specified units of measurement">
+                <strong>Picture 3</strong> - Enter data according to the specified units of measurement.
+            
+            
+                <img src="/eng_media/4_eng.png" alt="Click on the option 'Calculate APACHE II'">
+                <strong>Picture 4</strong> - Click on the option "Calculate APACHE II".
+            
+            
+                <img src="/eng_media/5_eng.png" alt="Enter the received score in the appropriate field and click 'Calculate'">
+                <strong>Picture 5</strong> - Enter the received score in the appropriate field and click "Calculate".
+            
+        </ul>
+        
+        <h3>Detailed Information on Indicator Calculation:</h3>
+        <h4>1. IFABP (Intestinal Fatty Acid-Binding Protein)</h4>
+        <p>This marker increases in the blood when the intestinal mucosal cells are damaged and can serve as an indicator of GIT dysfunction. Measurement units: IFABP is measured in picograms per milliliter (pg/mL).</p>
+        
+        <h4>2. APACHE II Calculation</h4>
+        <p>The score is calculated based on 12 standard physiological measurements. These measurements are taken within the first 24 hours after hospitalization and are supplemented by information about the patient’s previous health status (surgical intervention, severe organ failure in the medical history, immunodeficiency) and baseline demographic data, such as age.</p>
+        <p>The score is not recalculated during the hospital stay; it is, by definition, the admission score. If the patient is discharged from the intensive care unit and rehospitalized, a new APACHE II score is calculated.</p>
+        
+        <div class="back-button">
+            <button onclick="window.location.href='../eng.html'">Back</button>
+        </div>
+    </div>
+</body>
+</html>
