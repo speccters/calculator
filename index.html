@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOPMODS</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="card">
+        <h1 class="title">LOPMODS</h1>
+        <p class="subtitle">Lethal Outcome Prediction of MODS</p>
+
+        <h2>Рассчитать вероятность летального исхода при мультиорганной дисфункции</h2>
+
+        <div class="input-group">
+            <label for="iFabp">Уровень I-FABР в сыворотке крови (Пг/мл)</label>
+            <input type="number" id="iFabp">
+        </div>
+
+        <div class="input-group">
+            <label for="apacheScore">Баллы по шкале APACHE II</label>
+            <input type="number" id="apacheScore">
+        </div>
+
+        <button class="btn" onclick="calculateMortality()">Рассчитать</button>
+
+        <div id="mortalityResult" class="result"></div>
+
+        <h2>Калькулятор APACHE II</h2>
+
+        <div class="input-group">
+            <label for="useApache">Рассчитать APACHE II?</label>
+            <select id="useApache" onchange="toggleApacheScale()">
+                <option value="yes">Да</option>
+                <option value="no" selected>Нет</option>
+            </select>
+        </div>
+
+        <div id="apacheScale" style="display: none;">
+            <div class="input-group">
+                <label for="age">Возраст (лет)</label>
+                <input type="number" id="age">
+            </div>
+
+            <div class="input-group">
+                <label for="patientType">Тип пациента</label>
+                <select id="patientType">
+                    <option value="nonOperated">Неоперированные больные</option>
+                    <option value="emergencySurgery">Больные после экстренных операций</option>
+                    <option value="plannedSurgery">Больные после плановых операций</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="temperature">Температура (°C)</label>
+                <input type="number" step="0.1" id="temperature">
+            </div>
+
+            <div class="input-group">
+                <label for="meanBP">Среднее АД (мм Hg)</label>
+                <input type="number" id="meanBP">
+            </div>
+
+            <div class="input-group">
+                <label for="heartRate">ЧСС (уд/мин)</label>
+                <input type="number" id="heartRate">
+            </div>
+
+            <div class="input-group">
+                <label for="respiratoryRate">Частота дыхания (дых/мин)</label>
+                <input type="number" id="respiratoryRate">
+            </div>
+    
+
+            <div class="input-group">
+                <label for="gas-analysis">A-a градиент (мм.рт.ст.) PaO₂ (FiO₂>50%) или PaO₂ &lt; (FiO₂ 50%)</label>
+                <select id="gas-analysis">
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="ph">pH артериальной крови</label>
+                <input type="number" step="0.01" id="ph">
+            </div>
+
+            <div class="input-group">
+                <label for="sodium">Натрий (ммоль/л)</label>
+                <input type="number" id="sodium">
+            </div>
+
+
+            <div class="input-group">
+                <label for="potassium">Калий (ммоль/л)</label>
+                <input type="number" id="potassium">
+            </div>
+
+            <div class="input-group">
+                <label for="creatinine">Креатинин (мкмоль/л)</label>
+                <input type="number" id="creatinine">
+            </div>
+
+            <div class="input-group">
+                <label for="hematocrit">Гематокрит (%)</label>
+                <input type="number" id="hematocrit">
+            </div>
+
+            <div class="input-group">
+                <label for="wbc">Лейкоциты (*10^9/л)</label>
+                <input type="number" id="wbc">
+            </div>
+
+            <div class="input-group">
+                <label for="glasgow">Шкала комы Глазго</label>
+                <input type="number" id="glasgow" min="3" max="15">
+            </div>
+
+            <div class="input-group">
+                <label for="arf">Есть ли острая недостаточность</label>
+                <input type="checkbox" id="arf">
+            </div>
+
+            <div class="input-group">
+                <label for="immunodeficiency">Иммунодефицитное состояние</label>
+                <input type="checkbox" id="immunodeficiency">
+            </div>
+
+            <button class="btn" onclick="calculateScore()">Рассчитать APACHE II</button>
+
+            <div id="result" class="result"></div>
+        </div>
+    </div>
+
+    <div class="language-buttons">
+        <button class="btn" onclick="window.location.href='kaz.html'">KZ</button>
+        <button class="btn" onclick="window.location.href='eng.html'">EN</button>
+        <button class="btn btn-help" onclick="window.location.href='help_html/help_ru.html'">Помощь</button>
+    </div>
+
+    <script>
+        // Данные для выпадающего списка с баллами
+        const options = [
+            { value: "0", text: "< 200 или PaO₂ > 70 (0 points)" },
+            { value: "4", text: ">= 500 (4 points)" },
+            { value: "3", text: "350-499 (3 points)" },
+            { value: "2", text: "200-349 (2 points)" },
+            { value: "1", text: "PaO₂ 61-70 (1 point)" },
+            { value: "3", text: "PaO₂ 55-60 (3 points)" },
+            { value: "4", text: "PaO₂ < 55 (4 points)" }
+        ];
+     
+        const gasAnalysisScore = parseInt(document.getElementById("gas-analysis").value) || 0;
+
+        // Получаем элементы
+        const select = document.getElementById("gas-analysis");
+        
+
+        // Заполняем select опциями
+        options.forEach(option => {
+            let opt = document.createElement("option");
+            opt.value = option.value;
+            opt.textContent = option.text;
+            select.appendChild(opt);
+        });
+
+        // Добавляем обработчик событий
+        select.addEventListener("change", function() {
+            const selectedValue = this.value;
+            resultSpan.textContent = `Выбранное значение: ${selectedValue} points`;
+        });
+
+        function toggleApacheScale() {
+            const useApache = document.getElementById("useApache").value;
+            const apacheScale = document.getElementById("apacheScale");
+            if (useApache === "no") {
+                apacheScale.style.display = "none";
+            } else {
+                apacheScale.style.display = "block";
+            }
+        }
+
+      function calculateScore() {
+    let score = 0;
+
+
+    function getValue(id, type = 'number') {
+        const element = document.getElementById(id);
+        if (!element || element.value === "") return null;
+        if (type === 'checkbox') return element.checked ? 1 : 0;
+        if (type === 'number') return parseFloat(element.value) || 0;
+        if (type === "text") return element.value.trim() || "";
+        return element.value;
+    }
+
+    const age = getValue("age");
+    const temperature = getValue("temperature");
+    const meanBP = getValue("meanBP");
+    const heartRate = getValue("heartRate");
+    const respiratoryRate = getValue("respiratoryRate");
+    const ph = getValue("ph");
+    const sodium = getValue("sodium");
+    const potassium = getValue("potassium");
+    const creatinine = getValue("creatinine");
+    const hematocrit = getValue("hematocrit");
+    const wbc = getValue("wbc");
+    const glasgow = getValue("glasgow");
+    const isARF = getValue("arf", "checkbox");  
+    const isImmunodeficiency = getValue("immunodeficiency", "checkbox");
+    const patientType = document.getElementById("patientType").value || 0;
+    const gasAnalysis = parseInt(getValue("gas-analysis", "text")) || 0;
+
+    // Возраст
+    if (age !== null) {
+        if (age >= 75) score += 6;
+        else if (age >= 65) score += 5;
+        else if (age >= 55) score += 3;
+        else if (age >= 45) score += 2;
+        else if (age <= 44) score += 0;
+    }
+
+    // Температура
+    if (temperature !== null) {
+        if (temperature > 40.9) score += 4;
+        else if (temperature >= 39) score += 3;
+        else if (temperature >= 38.5) score += 1;
+        else if (temperature >= 36) score += 0;
+        else if (temperature >= 34) score += 1;
+        else if (temperature >= 32) score += 2;
+        else if (temperature >= 30) score += 3;
+        else if (temperature < 30) score += 4;
+    }
+
+    // Среднее артериальное давление
+    if (meanBP !== null) {
+        if (meanBP > 159) score += 4;
+        else if (meanBP >= 130) score += 3;
+        else if (meanBP >= 110) score += 2;
+        else if (meanBP >= 70) score += 0;
+        else if (meanBP >= 50) score += 2;
+        else if (meanBP < 50) score += 4;
+    }
+
+    // Частота сердечных сокращений
+    if (heartRate !== null) {
+        if (heartRate > 179) score += 4;
+        else if (heartRate >= 140) score += 3;
+        else if (heartRate >= 110) score += 2;
+        else if (heartRate >= 70) score += 0;
+        else if (heartRate >= 55) score += 2;
+        else if (heartRate >= 40) score += 3;
+        else if (heartRate < 40) score += 4;
+    }
+
+    // Частота дыхания
+    if (respiratoryRate !== null) {
+        if (respiratoryRate > 49) score += 4;
+        else if (respiratoryRate >= 35) score += 3;
+        else if (respiratoryRate >= 25) score += 1;
+        else if (respiratoryRate >= 12) score += 0;
+        else if (respiratoryRate >= 10) score += 1;
+        else if (respiratoryRate >= 6) score += 2;
+        else if (respiratoryRate < 6) score += 4;
+    }
+
+    // pH артериальной крови
+    if (ph !== null) {
+        if (ph > 7.69) score += 4;
+        else if (ph >= 7.60) score += 3;
+        else if (ph >= 7.50) score += 1;
+        else if (ph >= 7.33) score += 0;
+        else if (ph >= 7.25) score += 2;
+        else if (ph >= 7.15) score += 3;
+        else if (ph < 7.15) score += 4;
+    }
+
+    // Натрий сыворотки
+    if (sodium !== null) {
+        if (sodium > 179) score += 4;
+        else if (sodium >= 160) score += 3;
+        else if (sodium >= 155) score += 2;
+        else if (sodium >= 150) score += 1;
+        else if (sodium >= 130) score += 0;
+        else if (sodium >= 120) score += 2;
+        else if (sodium >= 111) score += 3;
+        else if (sodium < 111) score += 4;
+    }
+
+    // Калий сыворотки
+    if (potassium !== null) {
+        if (potassium > 6.9) score += 4;
+        else if (potassium >= 6) score += 3;
+        else if (potassium >= 5.5) score += 1;
+        else if (potassium >= 3.5) score += 0;
+        else if (potassium >= 3) score += 1;
+        else if (potassium >= 2.5) score += 2;
+        else if (potassium < 2.5) score += 4;
+    }
+
+    // Креатинин сыворотки
+    if (creatinine !== null) {
+        if (creatinine > 300.56) score += 4;
+        else if (creatinine >= 176.8) score += 3;
+        else if (creatinine >= 132.6) score += 2;
+        else if (creatinine >= 53.04) score += 0;
+        else if (creatinine < 53.04) score += 2;
+    }
+
+    // Гематокрит
+    if (hematocrit !== null) {
+        if (hematocrit > 59.9) score += 4;
+        else if (hematocrit >= 50) score += 2;
+        else if (hematocrit >= 46) score += 1;
+        else if (hematocrit >= 30) score += 0;
+        else if (hematocrit >= 20) score += 2;
+        else if (hematocrit < 20) score += 4;
+    }
+
+    // Лейкоциты
+    if (wbc !== null) {
+        if (wbc > 39.9) score += 4;
+        else if (wbc >= 20) score += 2;
+        else if (wbc >= 15) score += 1;
+        else if (wbc >= 3) score += 0;
+        else if (wbc >= 1) score += 2;
+        else if (wbc < 1) score += 4;
+    }
+
+    // Шкала комы Глазго
+    if (glasgow !== null) {
+        if (glasgow >= 15) score += 0;
+        else if (glasgow === 14) score += 1;
+        else if (glasgow === 13) score += 2;
+        else if (glasgow === 12) score += 3;
+        else if (glasgow === 11) score += 4;
+        else if (glasgow === 10) score += 5;
+        else if (glasgow === 9) score += 6;
+        else if (glasgow === 8) score += 7;
+        else if (glasgow === 7) score += 8;
+        else if (glasgow === 6) score += 9;
+        else if (glasgow === 5) score += 10;
+        else if (glasgow === 4) score += 11;
+        else if (glasgow === 3) score += 12;
+    }
+
+
+    // Сопутствующая патология
+    if (patientType === "nonOperated" || patientType === "emergencySurgery") {
+    if (isARF && isImmunodeficiency) {
+        score += 5;
+    } else {
+        if (isARF) score += 5;
+        if (isImmunodeficiency) score += 5;
+    }
+} else if (patientType === "plannedSurgery") {
+    if (isARF && isImmunodeficiency) {
+        score += 2;
+    } else {
+        if (isARF) score += 2;
+        if (isImmunodeficiency) score += 2;
+    }
+}
+
+    score += gasAnalysis;
+   document.getElementById("result").innerText=" Общий балл " + score;
+}
+    
+    function calculateMortality() {
+        const iFabp = parseFloat(document.getElementById("iFabp").value) || 0;
+        const apacheScore = parseFloat(document.getElementById("apacheScore").value) || 0;
+        
+        if (iFabp === 0 && apacheScore === 0) {
+            document.getElementById("mortalityResult").innerText = "Вероятность летального исхода: 0%";
+            return;
+        }
+
+        const z = -3.389 + 0.001 * iFabp + 0.182 * apacheScore;
+        const mortalityRate = 1 / (1 + Math.exp(-z));
+        document.getElementById("mortalityResult").innerText = `Вероятность летального исхода: ${(mortalityRate * 100).toFixed(1)}%`;
+    }
+    
+    function toggleMenu() {
+        const menuContent = document.querySelector('.burger-menu .menu-content');
+        menuContent.classList.toggle('show');
+    }
+   
+</script>
+</body>
+</html>
