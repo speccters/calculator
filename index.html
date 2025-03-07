@@ -375,7 +375,7 @@
             return;
         }
 
-        const z = -3.389 + 0.001 * iFabp + 0.182 * apacheScore;
+        const z = -4.19 + 0.002 * iFabp + 0.214 * apacheScore;
         const mortalityRate = 1 / (1 + Math.exp(-z));
         document.getElementById("mortalityResult").innerText = `Вероятность летального исхода: ${(mortalityRate * 100).toFixed(1)}%`;
     }
