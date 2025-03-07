@@ -304,6 +304,7 @@
     else if (creatinine >= 176.8) score += 3;
     else if (creatinine >= 53.04) score += 0;
     else if (creatinine < 53.04) score += 2;
+           if (isARF) score *= 2;
     }
 
     // Гематокрит
