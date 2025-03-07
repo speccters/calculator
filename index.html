@@ -299,14 +299,13 @@
 
     // Креатинин сыворотки
     if (creatinine !== null) {
-        if (creatinine > 300.56 &&isARF)  score += 8;
-    else if (creatinine >= 176.8 &&isARF) score += 6;
-    else if (creatinine > 300.56) score += 4;
-    else if (creatinine >= 132.6 &&isARF) score += 4;
+     else if (creatinine > 300.56) score += 4;
     else if (creatinine >= 132.6) score += 2;
     else if (creatinine >= 176.8) score += 3;
     else if (creatinine >= 53.04) score += 0;
     else if (creatinine < 53.04) score += 2;
+    
+    if (isARF) score *= 2;
     }
 
     // Гематокрит
