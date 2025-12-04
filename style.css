@@ -38,7 +38,7 @@
         cursor: pointer;
     }
     .btn:hover {
-        background-color: #00FF7F;
+        background-color: #00FFFF;
     }
     .btn-help {
         background-color: #28a745 !important;
