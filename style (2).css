@@ -1,0 +1,269 @@
+:root {
+    --primary-color: #3b82f6;
+    --hover-color: #2563eb;
+    --bg-light: #eef2f6;
+    --text-main: #1e293b;
+    /* Эффект стекла */
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.5);
+}
+
+body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background-color: var(--bg-light);
+    background-image: url(3016869.png);
+    background-repeat: no-repeat;
+    background-position: right 10% center; 
+    background-size: contain;
+    background-attachment: fixed;
+    color: var(--text-main);
+    margin: 0;
+    padding: 40px 20px;
+    min-height: 100vh;
+}
+
+.card {
+    max-width: 650px;
+    margin: 0 auto;
+    padding: 40px;
+    border-radius: 24px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(25px); 
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+}
+
+.title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 5px;
+    text-align: center; /* Возвращаем в центр */
+    width: 100%;
+}
+
+.subtitle {
+    text-align: center; /* Возвращаем в центр */
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+    font-weight: 600;
+    width: 100%;
+}
+
+h2 {
+    font-size: 1.1rem;
+    margin-top: 30px;
+    color: #334155;
+    font-weight: 700;
+}
+
+/* Поля ввода */
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #475569;
+}
+
+.input-group input, 
+.input-group select {
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.9);
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    outline: none;
+}
+
+/* Кнопки */
+.btn {
+    width: 100%;
+    padding: 16px;
+    font-size: 1rem;
+    font-weight: 700;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background-color: var(--hover-color);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4);
+}
+
+/* Языковые кнопки (сверху справа) */
+.language-buttons {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    display: flex;
+    gap: 10px;
+}
+
+.language-buttons .btn {
+    width: auto;
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    background: white;
+    color: var(--text-main);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.btn-help {
+    background-color: #10b981 !important; /* Зеленый акцент */
+    color: white !important;
+}
+
+/* Результат */
+.result {
+    margin-top: 25px;
+    padding: 20px;
+    background: rgba(59, 130, 246, 0.05);
+    border-radius: 12px;
+    border-left: 4px solid var(--primary-color);
+    font-size: 1.1rem;
+    color: #1e40af;
+}
+
+.main-layout {
+    display: flex;
+    flex-direction: row; 
+    gap: 20px;
+    width: 100%;
+    align-items: flex-start;
+}
+
+.column {
+    flex: 1;
+    min-width: 0;
+}
+
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.checkbox-row label {
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .main-layout {
+        flex-direction: column; 
+    }
+
+    .card {
+        padding: 15px; 
+        margin: 10px;
+    }
+
+    .title {
+        font-size: 1.8rem; 
+    }
+
+    .btn {
+        width: 100%; 
+    }
+    
+    .input-group input[type="checkbox"] {
+        width: 25px;
+        height: 25px;
+    }
+}
+
+.result {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 12px;
+    font-weight: bold;
+    text-align: center;
+    transition: all 0.4s ease; 
+    border: 2px solid transparent;
+}
+
+.risk-low {
+    background-color: #dcfce7;
+    color: #166534;
+    border-color: #22c55e;
+}
+
+.risk-medium {
+    background-color: #fef9c3;
+    color: #854d0e;
+    border-color: #eab308;
+}
+
+.risk-high {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border-color: #ef4444;
+}
+
+@media (max-width: 768px) {
+    body {
+        background-position: center bottom; 
+        background-size: 50%;
+    }
+    .card {
+        padding: 25px;
+    }
+    .language-buttons {
+        position: static;
+        justify-content: flex-end;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .card {
+        font-size: 0.85rem; 
+        padding: 12px;
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.1rem;
+        margin-top: 10px;
+    }
+
+    .input-group label {
+        margin-bottom: 3px;
+    }
+
+    input, select, .btn {
+        padding: 8px 12px; 
+        font-size: 0.9rem;
+    }
+
+    .input-group {
+        margin-bottom: 10px; 
+    }
+
+    .result {
+        padding: 10px;
+        margin-top: 10px;
+    }
+}
