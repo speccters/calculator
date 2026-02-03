@@ -12,123 +12,131 @@
         <h1 class="title">LOPMODS</h1>
         <p class="subtitle">Lethal Outcome Prediction of MODS</p>
 
-        <h2>Рассчитать вероятность летального исхода при мультиорганной дисфункции</h2>
+        <div class="main-layout">
+            
+            <div class="column">
+                <h2>Вероятность исхода</h2>
+                
+                <div class="input-group">
+                    <label for="iFabp">Уровень I-FABР (Пг/мл)</label>
+                    <input type="number" id="iFabp" placeholder="Введите значение...">
+                </div>
 
-        <div class="input-group">
-            <label for="iFabp">Уровень I-FABР в сыворотке крови (Пг/мл)</label>
-            <input type="number" id="iFabp">
-        </div>
+                <div class="input-group">
+                    <label for="apacheScore">Баллы APACHE II</label>
+                    <input type="number" id="apacheScore" placeholder="Автозаполнение...">
+                </div>
 
-        <div class="input-group">
-            <label for="apacheScore">Баллы по шкале APACHE II</label>
-            <input type="number" id="apacheScore">
-        </div>
-
-        <button class="btn" onclick="calculateMortality()">Рассчитать</button>
-
-        <div id="mortalityResult" class="result"></div>
-
-        <h2>Калькулятор APACHE II</h2>
-
-        <div class="input-group">
-            <label for="useApache">Рассчитать APACHE II?</label>
-            <select id="useApache" onchange="toggleApacheScale()">
-                <option value="yes">Да</option>
-                <option value="no" selected>Нет</option>
-            </select>
-        </div>
-
-        <div id="apacheScale" style="display: none;">
-            <div class="input-group">
-                <label for="age">Возраст (лет)</label>
-                <input type="number" id="age">
+                <button class="btn" onclick="calculateMortality()">Рассчитать вероятность</button>
+                <div id="mortalityResult" class="result"></div>
             </div>
 
-            <div class="input-group">
-                <label for="patientType">Тип пациента</label>
-                <select id="patientType">
-                    <option value="nonOperated">Неоперированные больные</option>
-                    <option value="emergencySurgery">Больные после экстренных операций</option>
-                    <option value="plannedSurgery">Больные после плановых операций</option>
-                </select>
+            <div class="column">
+                <h2>Калькулятор APACHE II</h2>
+
+                <div class="input-group">
+                    <label for="useApache">Рассчитать баллы сейчас?</label>
+                    <select id="useApache" onchange="toggleApacheScale()">
+                        <option value="no" selected>Нет, ввести вручную</option>
+                        <option value="yes">Да, рассчитать по параметрам</option>
+                    </select>
+                </div>
+
+                <div id="apacheScale" style="display: none;">
+                    <div class="input-group">
+                        <label for="age">Возраст (лет)</label>
+                        <input type="number" id="age">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="patientType">Тип пациента</label>
+                        <select id="patientType">
+                            <option value="nonOperated">Неоперированные больные</option>
+                            <option value="emergencySurgery">Экстренная операция</option>
+                            <option value="plannedSurgery">Плановая операция</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="temperature">Температура (°C)</label>
+                        <input type="number" step="0.1" id="temperature">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="meanBP">Среднее АД (мм Hg)</label>
+                        <input type="number" id="meanBP">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="heartRate">ЧСС (уд/мин)</label>
+                        <input type="number" id="heartRate">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="respiratoryRate">Частота дыхания</label>
+                        <input type="number" id="respiratoryRate">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="gas-analysis">Газовый анализ (PaO₂/FiO₂)</label>
+                        <select id="gas-analysis"></select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="ph">pH артериальной крови</label>
+                        <input type="number" step="0.01" id="ph">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="sodium">Натрий (ммоль/л)</label>
+                        <input type="number" id="sodium">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="potassium">Калий (ммоль/л)</label>
+                        <input type="number" id="potassium">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="creatinineRange">Диапазон креатинина</label>
+                        <select id="creatinineRange">
+                            <option value="4">> 300.56</option>
+                            <option value="3">176.8 - 300.56</option>
+                            <option value="2">132.6 - 176.7</option>
+                            <option value="0">53.04 - 132.5</option>
+                            <option value="2">< 53.04</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="hematocrit">Гематокрит (%)</label>
+                        <input type="number" id="hematocrit">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="wbc">Лейкоциты (*10^9/л)</label>
+                        <input type="number" id="wbc">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="glasgow">Шкала Глазго (3-15)</label>
+                        <input type="number" id="glasgow" min="3" max="15">
+                    </div>
+
+                    <div class="input-group checkbox-row">
+                        <input type="checkbox" id="arf">
+                        <label for="arf">Острая недостаточность (ARF)</label>
+                    </div>
+
+                    <div class="input-group checkbox-row">
+                        <input type="checkbox" id="immunodeficiency">
+                        <label for="immunodeficiency">Иммунодефицит</label>
+                    </div>
+
+                    <button class="btn btn-calc-small" onclick="calculateScore()">Рассчитать APACHE II</button>
+                    <div id="result" class="result"></div>
+                </div>
             </div>
-
-            <div class="input-group">
-                <label for="temperature">Температура (°C)</label>
-                <input type="number" step="0.1" id="temperature">
-            </div>
-
-            <div class="input-group">
-                <label for="meanBP">Среднее АД (мм Hg)</label>
-                <input type="number" id="meanBP">
-            </div>
-
-            <div class="input-group">
-                <label for="heartRate">ЧСС (уд/мин)</label>
-                <input type="number" id="heartRate">
-            </div>
-
-            <div class="input-group">
-                <label for="respiratoryRate">Частота дыхания (дых/мин)</label>
-                <input type="number" id="respiratoryRate">
-            </div>
-    
-
-            <div class="input-group">
-                <label for="gas-analysis">A-a градиент (мм.рт.ст.) PaO₂ (FiO₂>50%) или PaO₂ &lt; (FiO₂ 50%)</label>
-                <select id="gas-analysis">
-                </select>
-            </div>
-
-            <div class="input-group">
-                <label for="ph">pH артериальной крови</label>
-                <input type="number" step="0.01" id="ph">
-            </div>
-
-            <div class="input-group">
-                <label for="sodium">Натрий (ммоль/л)</label>
-                <input type="number" id="sodium">
-            </div>
-
-
-            <div class="input-group">
-                <label for="potassium">Калий (ммоль/л)</label>
-                <input type="number" id="potassium">
-            </div>
-
-            <div class="input-group">
-                <label for="creatinine">Креатинин (мкмоль/л)</label>
-                <input type="number" id="creatinine">
-            </div>
-
-            <div class="input-group">
-                <label for="hematocrit">Гематокрит (%)</label>
-                <input type="number" id="hematocrit">
-            </div>
-
-            <div class="input-group">
-                <label for="wbc">Лейкоциты (*10^9/л)</label>
-                <input type="number" id="wbc">
-            </div>
-
-            <div class="input-group">
-                <label for="glasgow">Шкала комы Глазго</label>
-                <input type="number" id="glasgow" min="3" max="15">
-            </div>
-
-            <div class="input-group">
-                <label for="arf">Есть ли острая недостаточность</label>
-                <input type="checkbox" id="arf">
-            </div>
-
-            <div class="input-group">
-                <label for="immunodeficiency">Иммунодефицитное состояние</label>
-                <input type="checkbox" id="immunodeficiency">
-            </div>
-
-            <button class="btn" onclick="calculateScore()">Рассчитать APACHE II</button>
-
-            <div id="result" class="result"></div>
         </div>
     </div>
 
@@ -137,7 +145,6 @@
         <button class="btn" onclick="window.location.href='eng.html'">EN</button>
         <button class="btn btn-help" onclick="window.location.href='help_html/help_ru.html'">Помощь</button>
     </div>
-
     <script>
         // Данные для выпадающего списка с баллами
         const options = [
@@ -182,12 +189,17 @@
 
       function calculateScore() {
     let score = 0;
-
+    let hasEmptyFields = false;
 
     function getValue(id, type = 'number') {
         const element = document.getElementById(id);
-        if (!element || element.value === "") return null;
-        if (type === 'checkbox') return element.checked ? 1 : 0;
+        if (!element || element.value === "") {
+            element.style.borderColor = "red";
+            hasEmptyFields = true;
+            return null;
+        } else {
+            element.style.borderColor = "";
+        }        if (type === 'checkbox') return element.checked ? 1 : 0;
         if (type === 'number') return parseFloat(element.value) || 0;
         if (type === "text") return element.value.trim() || "";
         return element.value;
@@ -201,7 +213,7 @@
     const ph = getValue("ph");
     const sodium = getValue("sodium");
     const potassium = getValue("potassium");
-    const creatinine = getValue("creatinine");
+    const creatinineRange = parseInt(getValue("creatinineRange", "text")) || 0;
     const hematocrit = getValue("hematocrit");
     const wbc = getValue("wbc");
     const glasgow = getValue("glasgow");
@@ -298,13 +310,10 @@
     }
 
     // Креатинин сыворотки
-    if (creatinine !== null) {
-        if (creatinine > 300.56) score += 4;
-        else if (creatinine >= 176.8) score += 3;
-        else if (creatinine >= 132.6) score += 2;
-        else if (creatinine >= 53.04) score += 0;
-        else if (creatinine < 53.04) score += 2;
-        if (isARF) score *= 2;
+    if (creatinineRange !== null) {
+        let creatinineScore = creatinineRange;
+        if (isARF) creatinineScore *= 2;
+        score += creatinineScore;
     }
 
     // Гематокрит
@@ -347,38 +356,52 @@
 
     // Сопутствующая патология
     if (patientType === "nonOperated" || patientType === "emergencySurgery") {
-    if (isARF && isImmunodeficiency) {
+    if (isImmunodeficiency) {
         score += 5;
-    } else {
-        if (isARF) score += 5;
-        if (isImmunodeficiency) score += 5;
-    }
+    } 
 } else if (patientType === "plannedSurgery") {
-    if (isARF && isImmunodeficiency) {
+    if (isImmunodeficiency) {
         score += 2;
-    } else {
-        if (isARF) score += 2;
-        if (isImmunodeficiency) score += 2;
-    }
+    } 
 }
 
     score += gasAnalysis;
-   document.getElementById("result").innerText=" Общий балл " + score;
+    if (hasEmptyFields) {
+        document.getElementById("result").innerHTML = "<span style='color: red;'>Введите значение</span>";
+    } else {
+        document.getElementById("result").innerText = "Жалпы балл " + score;
+        document.getElementById("apacheScore").value = score; // Automatically fill the apacheScore field
+    }
 }
     
     function calculateMortality() {
-        const iFabp = parseFloat(document.getElementById("iFabp").value) || 0;
-        const apacheScore = parseFloat(document.getElementById("apacheScore").value) || 0;
-        
-        if (iFabp === 0 && apacheScore === 0) {
-            document.getElementById("mortalityResult").innerText = "Вероятность летального исхода: 0%";
-            return;
-        }
-
-        const z = - -4.19 + 0.002 * iFabp + 0.214 * apacheScore;
-        const mortalityRate = 1 / (1 + Math.exp(-z));
-        document.getElementById("mortalityResult").innerText = `Вероятность летального исхода: ${(mortalityRate * 100).toFixed(1)}%`;
+    const iFabp = parseFloat(document.getElementById("iFabp").value) || 0;
+    const apacheScore = parseFloat(document.getElementById("apacheScore").value) || 0;
+    const resultDiv = document.getElementById("mortalityResult");
+    
+    if (iFabp === 0 && apacheScore === 0) {
+        resultDiv.innerText = "Вероятность летального исхода: 0%";
+        resultDiv.className = "result risk-low"; // Сбрасываем на зеленый
+        return;
     }
+
+    const z = -3.389 + 0.001 * iFabp + 0.182 * apacheScore;
+    const mortalityRate = 1 / (1 + Math.exp(-z));
+    const percentage = (mortalityRate * 100).toFixed(1);
+
+    resultDiv.innerText = `Вероятность летального исхода: ${percentage}%`;
+
+    // Логика переключения цветов
+    resultDiv.classList.remove("risk-low", "risk-medium", "risk-high"); // Очистка старых классов
+
+    if (percentage <= 30) {
+        resultDiv.classList.add("risk-low");
+    } else if (percentage > 30 && percentage <= 50) {
+        resultDiv.classList.add("risk-medium");
+    } else {
+        resultDiv.classList.add("risk-high");
+    }
+}
     
     function toggleMenu() {
         const menuContent = document.querySelector('.burger-menu .menu-content');
